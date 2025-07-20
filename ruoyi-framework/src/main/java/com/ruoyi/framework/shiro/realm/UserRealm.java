@@ -2,6 +2,8 @@ package com.ruoyi.framework.shiro.realm;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import com.alibaba.fastjson.JSONObject;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -71,10 +73,12 @@ public class UserRealm extends AuthorizingRealm
         else
         {
             roles = roleService.selectRoleKeys(user.getUserId());
+            // 只判断到目录级别，需要进一步考虑判断到接口级别
             menus = menuService.selectPermsByUserId(user.getUserId());
             // 角色加入AuthorizationInfo认证对象
             info.setRoles(roles);
             // 权限加入AuthorizationInfo认证对象
+            log.info("menus = {}", JSONObject.toJSONString(menus));
             info.setStringPermissions(menus);
         }
         return info;

@@ -9,6 +9,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
@@ -27,8 +31,10 @@ import com.ruoyi.system.service.ISysMenuService;
  * @author ruoyi
  */
 @Service
-public class SysMenuServiceImpl implements ISysMenuService
-{
+public class SysMenuServiceImpl implements ISysMenuService {
+
+    private static final Logger log = LoggerFactory.getLogger(SysMenuServiceImpl.class);
+
     public static final String PREMISSION_STRING = "perms[\"{0}\"]";
 
     @Autowired
@@ -55,6 +61,7 @@ public class SysMenuServiceImpl implements ISysMenuService
         else
         {
             menus = menuMapper.selectMenusByUserId(user.getUserId());
+            log.info("menus = {}", JSONObject.toJSONString(menus));
         }
         return getChildPerms(menus, 0);
     }
