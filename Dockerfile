@@ -1,4 +1,4 @@
-dockerfile复制编辑# 阶段1：用 Maven 构建所有模块
+# 阶段1：用 Maven 构建所有模块
 FROM maven:3.9.6-eclipse-temurin-17 AS builder
 WORKDIR /app
 COPY . .
