@@ -5,8 +5,12 @@ cd "$(dirname "$0")/.."
 # 切换 Minikube Docker 环境
 eval $(minikube docker-env)
 
-# 构建镜像
+# 在 Minikube 的 Docker 里构建镜像
 docker build -t spring-activiti:latest .
+
+# 重新部署 Pod
+kubectl delete pod -l app=spring-activiti
+kubectl apply -f k8s-deploy.yaml
 
 
 kubectl apply -f k8s-deploy.yaml
