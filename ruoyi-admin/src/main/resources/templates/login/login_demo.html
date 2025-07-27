@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('登录页')" />
+    <!-- 引入当前页面专用CSS -->
+    <link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+            <h3>欢迎注册</h3>
+            <p>创建一个新账户</p>
+            <form class="m-t" th:action="@{/register}" th:object="${registerForm}" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control" th:field="*{username}" placeholder="请输入用户名" required="">
+                </div>
+<!--                <div class="form-group">-->
+<!--                    <input type="password" class="form-control" th:field="*{password}" placeholder="请输入密码" required="">-->
+<!--                </div>-->
+                <div class="form-group">
+                    <input type="password" class="form-control" th:field="*{confirmPassword}" placeholder="请确认密码" required="">
+                </div>
+<!--                <div class="form-group">-->
+<!--                    <input type="email" class="form-control" th:field="*{email}" placeholder="请输入邮箱" required="">-->
+<!--                </div>-->
+                <div class="form-group">
+                    <input type="text" class="form-control" th:field="*{phone}" placeholder="请输入手机号">
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" th:field="*{verifyCode}" placeholder="验证码" required="">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" id="sendCodeBtn">获取验证码</button>
+                        </span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b">登录</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+<!--    点击登录时候触发js函数-->
+    $("#sendCodeBtn").click(function () {
+        const phone = $("*{phone}").val();
+        if (!phone) {
+            $.modal.msgError("请输入手机号");
+            return;
+        }
+
+        $.ajax({
+            type: "post",
+            url: ctx + "sendSmsCode",
+            data: {"phone": phone},
+            success: function (data) {
+                if (data.code == 200) {
+                    $.modal.msgSuccess("验证码已发送");
+                    // 倒计时60秒
+                    let countdown = 60;
+                    const btn = $("#sendCodeBtn");
+                    btn.attr("disabled", true);
+                    const timer = setInterval(function() {
+                        if (countdown <= 0) {
+                            clearInterval(timer);
+                            btn.text("获取验证码").attr("disabled", false);
+                        } else {
+                            btn.text(countdown + "秒后重新获取");
+                            countdown--;
+                        }
+                    }, 1000);
+                } else {
+                    $.modal.msgError(data.msg);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
