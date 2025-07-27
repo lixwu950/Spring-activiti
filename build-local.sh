@@ -1,15 +1,15 @@
 #!/bin/bash
 # 自动切换到 Dockerfile 所在的目录
-cd "$(dirname "$0")/.."
+#cd "$(dirname "$0")/.."
 
 # 切换 Minikube Docker 环境
 eval $(minikube docker-env)
 
 docker info | grep "Name"
 
-minikube docker-env
+#minikube docker-env
 
-docker info | grep "Name"
+#docker info | grep "Name"
 
 # 查看当前 Minikube 节点的 IP 地址
 minikube ip
