@@ -7,6 +7,10 @@ eval $(minikube docker-env)
 
 docker info | grep "Name"
 
+minikube docker-env
+
+docker info | grep "Name"
+
 # 查看当前 Minikube 节点的 IP 地址
 minikube ip
 
