@@ -5,6 +5,14 @@ cd "$(dirname "$0")/.."
 # 切换 Minikube Docker 环境
 eval $(minikube docker-env)
 
+docker info | grep "Name"
+
+# 查看当前 Minikube 节点的 IP 地址
+minikube ip
+
+# 查看当前 Minikube 节点的端口映射
+minikube service spring-activiti-service --url
+
 # 在 Minikube 的 Docker 里构建镜像
 docker build -t spring-activiti:latest .
 
