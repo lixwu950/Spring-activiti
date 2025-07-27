@@ -15,6 +15,7 @@ spec:
       containers:
         - name: spring-activiti
           image: spring-activiti:latest
+          imagePullPolicy: Never  # 强制使用本地镜像
           ports:
             - containerPort: 8080
 
