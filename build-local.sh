@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-# 1. 切换到项目根目录（Dockerfile 所在目录）
-cd "$(dirname "$0")/.."
 echo "当前路径: $(pwd)"
 
 # 2. 先导入宿主机已拉的基础镜像到 Minikube
